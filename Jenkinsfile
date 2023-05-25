@@ -2,18 +2,17 @@ pipeline {
     agent { 
         node {
             label 'docker-agent-alpine'
-        }
-    }
+            }
+      }
     triggers {
-        pollSCM('* * * * *')
+        pollSCM '*/5 * * * *'
     }
     stages {
         stage('Build') {
             steps {
                 echo "Building.."
                 sh '''
-                cd myapp
-                pip install -r requirements.txt
+                echo "Building from Jenkins file"
                 '''
             }
         }
@@ -21,9 +20,7 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                cd myapp
-                python3 hello.py
-                python3 hello.py --name=Brad
+                echo "Testing the build triggered from Jenkins file."
                 '''
             }
         }
